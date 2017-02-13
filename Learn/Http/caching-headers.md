@@ -1,5 +1,26 @@
 
 
+### Cache Control
+
+Cache-Control is an HTTP response header that defines the caching rules for a file. It can be set to a comma-separated selection of the following values:
+
+public or private define who should be able to cache the file.
+public: The file is cacheable by the browser and by all intermediaries (such as CDNs).
+private: The file is only cacheable by the browser.
+no-cache or no-store define stricter caching rules
+no-cache: Cache the file, but don’t use it without checking with the server that it hasn’t changed.
+no-store: Nobody should cache anything.
+max-age: The number of seconds for which we can use the cached file. After this, we will have to check for it again (although we may not have to redownload it; see cache validation).
+Combining these settings can be useful in a number of configurations:
+
+public and a given max-age is useful for purely static content.
+private and a given max-age is for information that isn’t necessarily personal, but is user-specific.
+no-cache is great when it’s critical to have the latest version of a file (for live feeds, or content based on random numbers, for instance).
+no-store is mainly for private, personal data that shouldn’t be cached (for security reasons).
+Once again, there is another header with overlapping functionality: Expires. While Cache-Control: max-age=600 will set a 10 minute timeout, Expires: Fri, 20 Nov 2015 23:56:13 GMT will just time out at the set date. When using Expires, we also add a Date header so we know what time the server thinks it currently is.
+
+Also good to know: max-age overrides Expires.
+
 
 ### Etags
 
